@@ -3,22 +3,13 @@
 import React from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLanguage } from "../redux/slices/languageSlice";
-import en from "../constants/en.json";
-import tr from "../constants/tr.json";
-import { RootState } from "../redux/store";
-
-const translations: Record<
-  string,
-  { SELECT_LANGUAGE: string; TURKISH: string; ENGLISH: string }
-> = { en, tr };
+import useTranslation from "@/hooks/useTranslation";
 
 const LanguageSwitcher = () => {
   const dispatch = useDispatch();
-  const language = useSelector(
-    (state: RootState) => state.language.currentLanguage
-  );
+  const { t, currentLang } = useTranslation();
 
   const handleLanguageChange = (lang: string) => {
     dispatch(setLanguage(lang));
@@ -27,12 +18,12 @@ const LanguageSwitcher = () => {
   const languages = [
     {
       code: "tr",
-      label: translations[language].TURKISH,
+      label: t.TURKISH,
       flag: "/icons/turkey.png",
     },
     {
       code: "en",
-      label: translations[language].ENGLISH,
+      label: t.ENGLISH,
       flag: "/icons/uk.png",
     },
   ];
@@ -43,12 +34,10 @@ const LanguageSwitcher = () => {
         <Image
           width={25}
           height={25}
-          src={languages.find((lang) => lang.code === language)?.flag || ""}
+          src={languages.find((lang) => lang.code === currentLang)?.flag || ""}
           alt="flag"
         />
-        <span>
-          {translations[language][language === "tr" ? "TURKISH" : "ENGLISH"]}
-        </span>
+        <span>{t[currentLang === "tr" ? "TURKISH" : "ENGLISH"]}</span>
       </MenuButton>
       <MenuItems anchor="bottom" className="bg-white shadow-lg rounded-md p-2">
         {languages.map(({ code, label, flag }) => (
