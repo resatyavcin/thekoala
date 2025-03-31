@@ -1,9 +1,11 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import ComingSoon from "@/components/ComingSoon";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 export default function Home() {
   return (
     <div className="w-screen">
       <main>
+        <LanguageSwitcher />
         <aside>
           <TabGroup className="flex flex-col justify-center items-center mt-7 text-center">
             <TabList className="inline-block p-3 bg-indigo-950 rounded-md">
